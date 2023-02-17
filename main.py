@@ -1,4 +1,5 @@
-import random
+import secrets
+import string
 
 '''
 A GOOD PASSWORD HAS THIS QUALITIES:
@@ -11,21 +12,38 @@ doesn't contain phone numbers or address'
 unique (perhaps not necessary to code, user would be responsible for this part)
 '''
 
-# need to create a user input, rather than a hardset pass length
-pass_min_len = int(input("Input password lenght (minimum of 6):"))
+# inputs for length of password. also, inputs for whether or not the individual may use special characters and punctuation. 
+# pass_min_len = int(input("Input password lenght (minimum of 6):"))
 
-# special character set for better readability
-special_characters = '!@#$%^&*'
-possible_characters = 'qwertyuioplkjhgfdsamnbvcxzZXCVBNMASDFGHJKLPOIUYTREWQ0123456789' + special_characters
+while True:
+    try:
+        pass_min_len = int(input("Input password length (minimum of 6):"))
+        if pass_min_len < 6:
+            raise ValueError("Password length must be at least 6.")
+        break
+    except ValueError as e:
+        print("Error:", e, "Please try again.")
 
+spc_char_need = input("Can you have special characters in your password?(yes or no only):")
+
+# character list for possible characters. seperated special characters and punctuation for better readability.
+possible_characters = string.ascii_letters + string.digits
+
+# possible characters and if statements to create a list, then join into a string for further processing.
+# possible_characters = [alphanumeric, ]
+
+if spc_char_need == 'yes':
+    possible_characters += string.punctuation
+
+# temp password made to iterate through possible characters, then append into the password itself.
 temp_password = []
 
-if pass_min_len >= 6:
-    for x in range(pass_min_len):
-        random_char = random.choice(possible_characters)
-        temp_password.append(random_char)
-else:
-    temp_password = "Password does not meet the minimum length."
+# if pass_min_len >= 6:
+for x in range(pass_min_len):
+    random_char = secrets.choice(possible_characters)
+    temp_password.append(random_char)
+# else:
+#     temp_password = "Password does not meet the minimum length."
 
 password = ''.join(temp_password)
 
